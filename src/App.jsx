@@ -18,11 +18,6 @@ function App() {
     const [dropoff, setDropoff] = useState([124.5723121079061, 8.521490348231794]);
     const [distance, storeDistance] = useState('')
     const [duration, storeDuration] = useState('')
-    const [route, setRoute] = useState(false)
-
-    const toggleTrueFalse = () => {
-        setRoute(!route);
-    };
 
     useEffect(() => {
         // Initialize map when component mounts
@@ -45,8 +40,8 @@ function App() {
             setZoom(map.current.getZoom().toFixed(zoom));
         });
         addMarkers();
+        getRoute(); // Call getRoute after addMarkers
 
-        
         // Clean up map instance when component unmounts
         return () => {
             if (map.current) {
@@ -57,11 +52,7 @@ function App() {
 
     useEffect(() => {
         getRoute();
-    }, [pickup, dropoff, route])
-
-    useEffect(() => {
-        getRoute();
-    }, []);
+    }, [pickup, dropoff]);
 
     const getRoute = () => {
         console.log('Getting route...');
@@ -174,9 +165,6 @@ function App() {
                     </button>
                     <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mr-2" onClick={() => handleMapStyleChange('mapbox://styles/1barry123/clvi1sfb2013x01q1bgcx7zy7')}>
                         Satellite
-                    </button>
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mr-2" onClick={() => toggleTrueFalse()}>
-                        Route
                     </button>
                 </div>
             </div>
