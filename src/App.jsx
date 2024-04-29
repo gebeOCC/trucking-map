@@ -40,7 +40,7 @@ function App() {
             setZoom(map.current.getZoom().toFixed(zoom));
         });
         addMarkers();
-        getRoute(); // Call getRoute after addMarkers
+        // getRoute(); // Call getRoute after addMarkers
 
         // Clean up map instance when component unmounts
         return () => {
@@ -54,11 +54,21 @@ function App() {
         getRoute();
     }, [pickup, dropoff]);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            getRoute();
+        }, 1000); // 1000 milliseconds = 1 second
+
+        // Clean up the timeout when the component unmounts
+        return () => clearTimeout(timer);
+    }, []);
+
     const getRoute = () => {
         console.log('Getting route...');
         console.log('Pickup:', pickup);
         console.log('Dropoff:', dropoff);
 
+        
         const directions = new MapboxDirections({
             accessToken: mapboxgl.accessToken,
             unit: 'metric',
